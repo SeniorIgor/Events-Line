@@ -7,3 +7,10 @@ export interface Event {
   image: string;
   isFeatured: boolean;
 }
+
+export type EventsResponse = Record<string, Event>;
+
+export interface EventFilter {
+  year: number;
+  month: number;
+}

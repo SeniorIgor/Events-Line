@@ -1,3 +1,3 @@
 export interface EventSearchTitleProps {
-  date: Date;
+  date?: Date;
 }

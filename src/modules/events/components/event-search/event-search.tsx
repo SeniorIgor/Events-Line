@@ -3,15 +3,15 @@ import {
   FC,
   FormEventHandler,
   useCallback,
-  useState,
-} from 'react';
+  useState
+} from "react";
 
-import Button from '@/src/ui/button';
+import Button from "@/src/ui/button";
 
-import { months, years } from './event-search.data';
-import { EventSearchProps, EventsSearchParams } from './event-search.types';
+import { months, years } from "./event-search.data";
+import { EventSearchProps, EventsSearchParams } from "./event-search.types";
 
-import styles from './event-search.module.scss';
+import styles from "./event-search.module.scss";
 
 const initialState: EventsSearchParams = {
   year: years[0],
@@ -75,7 +75,7 @@ const EventsSearch: FC<EventSearchProps> = ({ onSearch }) => {
           </select>
         </div>
       </div>
-      <Button>Find Events</Button>
+      <Button as="button">Find Events</Button>
     </form>
   );
 };

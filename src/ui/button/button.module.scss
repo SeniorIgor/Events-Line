@@ -1,18 +1,20 @@
 .btn {
-  text-decoration: none;
-  cursor: pointer;
-  font: inherit;
-  background-color: #03be9f;
-  border: 1px solid #03be9f;
-  border-radius: 6px;
-  color: #dafff7;
+  display: inline-flex;
+  align-items: center;
   padding: 0.5rem 1.5rem;
+  font: inherit;
   text-align: center;
+  text-decoration: none;
+  border-radius: 6px;
+  border: 1px solid #03be9f;
+  cursor: pointer;
+  color: #dafff7;
+  background-color: #03be9f;
   box-shadow: 0 1px 6px rgba(#000, 0.2);
 }
 
 .btn:hover,
 .btn:active {
-  background-color: #02afa1;
   border-color: #02afa1;
+  background-color: #02afa1;
 }

@@ -48,7 +48,7 @@ const EventItem: FC<EventItemProps> = ({
           </div>
         </div>
         <div className={styles.actions}>
-          <Button href={`${paths.events}/${id}`}>
+          <Button as="link" href={`${paths.events}/${id}`}>
             <span>Explore Event</span>
             <span className={styles.icon}>
               <ArrowRightIcon />

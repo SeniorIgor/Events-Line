@@ -1,24 +1,36 @@
-import type { NextPage } from 'next';
-import { useRouter } from "next/router";
-import { useMemo } from "react";
+import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { ParsedUrlQuery } from "querystring";
 
-import EventContent from "@/src/modules/events/event-content";
-import EventLogistics from "@/src/modules/events/event-logistics";
-import EventSummary from "@/src/modules/events/event-summary";
+import EventContent from "@/src/modules/events/components/event-content";
+import EventLogistics from "@/src/modules/events/components/event-logistics";
+import EventSummary from "@/src/modules/events/components/event-summary";
+import { getEventById, getFeaturedEvents } from "@/src/services/events";
+import { Event } from "@/src/types";
 import ErrorAlert from "@/src/ui/error-alert";
 
-import events from "../../src/services/events";
+interface EventDetailPageProps {
+  event?: Event;
+  status?: 'notFound';
+}
 
-const EventDetailPage: NextPage = () => {
-  const { eventId } = useRouter().query;
+interface Params extends ParsedUrlQuery {
+  eventId: string;
+}
 
-  const event = useMemo(() => events.getEventById(String(eventId)), [eventId]);
-
-  if (!event) {
+const EventDetailPage: NextPage<EventDetailPageProps> = ({ event, status }) => {
+  if (status === 'notFound') {
     return (
       <ErrorAlert>
         <p>No event found!</p>
       </ErrorAlert>
+    );
+  }
+
+  if (!event) {
+    return (
+      <div className="center">
+        <h6>Loading...</h6>
+      </div>
     );
   }
 
@@ -36,6 +48,37 @@ const EventDetailPage: NextPage = () => {
       </EventContent>
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps<
+  EventDetailPageProps,
+  Params
+> = async (context) => {
+  const { eventId } = context.params!;
+
+  const { data, error } = await getEventById(eventId);
+
+  if (error) {
+    return { notFound: true };
+  }
+
+  if (!data) {
+    return { props: { status: 'notFound' }, revalidate: 60 };
+  }
+
+  return { props: { event: data }, revalidate: 60 };
+};
+
+export const getStaticPaths: GetStaticPaths<Params> = async () => {
+  const { data, error } = await getFeaturedEvents();
+
+  if (error || !data) {
+    return { paths: [], fallback: true };
+  }
+
+  const paths = data.map(({ id }) => ({ params: { eventId: id } }));
+
+  return { paths, fallback: true };
 };
 
 export default EventDetailPage;

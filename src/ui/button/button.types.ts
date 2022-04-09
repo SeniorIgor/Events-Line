@@ -8,7 +8,7 @@ type BaseProps = {
 
 type ButtonAsButton = BaseProps &
   Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof BaseProps> & {
-    as?: 'button';
+    as: 'button';
   };
 
 type ButtonAsLink = BaseProps &

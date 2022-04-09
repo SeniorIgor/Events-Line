@@ -8,26 +8,30 @@ import styles from "./button.module.scss";
 
 const Button: FC<ButtonProps> = ({ className, children, ...props }) => {
   if (props.as === 'link') {
+    const { as, ...otherProps } = props;
     return (
-      <Link {...props}>
+      <Link {...otherProps}>
         <a className={cn(styles.btn, className)}>{children}</a>
       </Link>
     );
   } else if (props.as === 'external') {
+    const { as, ...otherProps } = props;
     return (
       <a
         className={cn(styles.btn, className)}
         target="_blank"
         rel="noopener noreferrer"
-        {...props}
+        {...otherProps}
       >
         {children}
       </a>
     );
   }
 
+  const { as, ...otherProps } = props;
+
   return (
-    <button {...props} className={cn(styles.btn, className)}>
+    <button {...otherProps} className={cn(styles.btn, className)}>
       {children}
     </button>
   );

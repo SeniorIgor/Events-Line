@@ -1,35 +1,42 @@
-import type { NextPage } from 'next';
-import { useRouter } from "next/router";
+import type { NextPage, GetServerSideProps } from 'next';
+// import { useRouter } from "next/router";
+import { ParsedUrlQuery } from "querystring";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
 
 import EventList from "@/src/components/event-list";
 import paths from "@/src/config/paths";
-import EventSearchTitle from "@/src/modules/events/event-search-title";
-import eventsService, { DateFilter } from "@/src/services/events";
+import EventSearchTitle from "@/src/modules/events/components/event-search-title";
+import { getFilteredEvents } from "@/src/services/events";
+import { Event } from "@/src/types";
 import Button from "@/src/ui/button";
 import ErrorAlert from "@/src/ui/error-alert";
 
-const checkSearchParams = ({ year, month }: DateFilter) => {
-  return (
-    isNaN(year) ||
-    isNaN(month) ||
-    year > 2030 ||
-    year < 2022 ||
-    month < 1 ||
-    month > 12
-  );
-};
+interface FilteredEventsPageProps {
+  search: Array<string>;
+}
 
-const FilteredEventsPage: NextPage = () => {
-  const { search } = useRouter().query;
+interface Params extends ParsedUrlQuery {
+  search: Array<string>;
+}
 
-  if (!search) {
-    return <h4 className="center">Loading...</h4>;
-  }
-
-  const [year, month] = search as Array<string>;
+const FilteredEventsPage: NextPage<FilteredEventsPageProps> = ({ search }) => {
+  const [events, setEvents] = useState<Array<Event>>();
+  const [year, month] = search;
   const filters = { year: +year, month: +month };
 
-  if (checkSearchParams(filters)) {
+  const { data, error } = useSWR<Array<Event> | undefined, Error>(
+    '/getEvents',
+    async () => (await getFilteredEvents(filters)).data
+  );
+
+  useEffect(() => {
+    if (data) {
+      setEvents(data);
+    }
+  }, [data]);
+
+  if (error) {
     return (
       <>
         <ErrorAlert>
@@ -44,9 +51,15 @@ const FilteredEventsPage: NextPage = () => {
     );
   }
 
-  const events = eventsService.getFilteredEvents(filters);
+  if (!events) {
+    return (
+      <div className="center">
+        <h4>Loading...</h4>
+      </div>
+    );
+  }
 
-  if (!events?.length) {
+  if (!events.length) {
     return (
       <>
         <ErrorAlert>
@@ -61,12 +74,23 @@ const FilteredEventsPage: NextPage = () => {
     );
   }
 
+  const currentDate = new Date(filters.year, filters.month - 1);
+
   return (
     <>
-      <EventSearchTitle date={new Date(filters.year, filters.month - 1)} />
+      <EventSearchTitle date={currentDate} />
       <EventList items={events} />
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps<
+  FilteredEventsPageProps,
+  Params
+> = async ({ params }) => {
+  const { search } = params!;
+
+  return { props: { search } };
 };
 
 export default FilteredEventsPage;
