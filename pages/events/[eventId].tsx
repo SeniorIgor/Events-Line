@@ -2,6 +2,7 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
 
+import CommentsSection from "@/src/modules/comments/comments-section/comments-section";
 import EventContent from "@/src/modules/events/components/event-content";
 import EventLogistics from "@/src/modules/events/components/event-logistics";
 import EventSummary from "@/src/modules/events/components/event-summary";
@@ -51,6 +52,7 @@ const EventDetailPage: NextPage<EventDetailPageProps> = ({ event, status }) => {
       <EventContent>
         <p>{event.description}</p>
       </EventContent>
+      <CommentsSection eventId={event.id} />
     </>
   );
 };

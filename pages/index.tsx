@@ -1,7 +1,7 @@
 import type { GetStaticProps, NextPage } from 'next';
-import Head from "next/head";
 
 import EventList from "@/src/components/event-list";
+import FormNewsletter from "@/src/modules/comments/form-newsletter/form-newsletter";
 import { getFeaturedEvents } from "@/src/services/events";
 import { Event } from "@/src/types/event";
 
@@ -12,6 +12,7 @@ interface HomePageProps {
 const HomePage: NextPage<HomePageProps> = ({ events }) => {
   return (
     <>
+      <FormNewsletter />
       <EventList items={events} />;
     </>
   );
