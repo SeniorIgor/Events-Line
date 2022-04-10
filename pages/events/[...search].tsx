@@ -1,5 +1,5 @@
 import type { NextPage, GetServerSideProps } from 'next';
-// import { useRouter } from "next/router";
+import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
@@ -25,6 +25,13 @@ const FilteredEventsPage: NextPage<FilteredEventsPageProps> = ({ search }) => {
   const [year, month] = search;
   const filters = { year: +year, month: +month };
 
+  const head = (
+    <Head>
+      <title>Filtered Events</title>
+      <meta name="description" content={`All events for ${month}/${year}.`} />
+    </Head>
+  );
+
   const { data, error } = useSWR<Array<Event> | undefined, Error>(
     '/getEvents',
     async () => (await getFilteredEvents(filters)).data
@@ -39,6 +46,7 @@ const FilteredEventsPage: NextPage<FilteredEventsPageProps> = ({ search }) => {
   if (error) {
     return (
       <>
+        {head}
         <ErrorAlert>
           <p className="center">Invalid filter. Please adjust your values!</p>
         </ErrorAlert>
@@ -53,15 +61,19 @@ const FilteredEventsPage: NextPage<FilteredEventsPageProps> = ({ search }) => {
 
   if (!events) {
     return (
-      <div className="center">
-        <h4>Loading...</h4>
-      </div>
+      <>
+        {head}
+        <div className="center">
+          <h4>Loading...</h4>
+        </div>
+      </>
     );
   }
 
   if (!events.length) {
     return (
       <>
+        {head}
         <ErrorAlert>
           <p className="center">Not events found for the chosen filter!</p>
         </ErrorAlert>
@@ -78,6 +90,7 @@ const FilteredEventsPage: NextPage<FilteredEventsPageProps> = ({ search }) => {
 
   return (
     <>
+      {head}
       <EventSearchTitle date={currentDate} />
       <EventList items={events} />
     </>

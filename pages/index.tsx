@@ -1,4 +1,5 @@
 import type { GetStaticProps, NextPage } from 'next';
+import Head from "next/head";
 
 import EventList from "@/src/components/event-list";
 import { getFeaturedEvents } from "@/src/services/events";
@@ -9,7 +10,11 @@ interface HomePageProps {
 }
 
 const HomePage: NextPage<HomePageProps> = ({ events }) => {
-  return <EventList items={events} />;
+  return (
+    <>
+      <EventList items={events} />;
+    </>
+  );
 };
 
 export const getStaticProps: GetStaticProps = async () => {
