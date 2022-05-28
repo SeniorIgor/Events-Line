@@ -3,8 +3,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 
+import paths from "@/config/paths";
 import EventList from "@/src/components/event-list";
-import paths from "@/src/config/paths";
 import EventsSearch, { SearchEventHandler } from "@/src/modules/events/components/event-search";
 import { getEvents } from "@/src/services/events";
 import { Event } from "@/src/types";

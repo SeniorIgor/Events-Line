@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { FC } from "react";
 
-import paths from "@/src/config/paths";
+import paths from "@/config/paths";
 
 import styles from "./header.module.scss";
 

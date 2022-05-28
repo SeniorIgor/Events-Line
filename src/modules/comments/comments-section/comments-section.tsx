@@ -1,6 +1,9 @@
 import { FC, memo, useCallback, useState } from "react";
+import { useSWRConfig } from "swr";
 
-import CommentForm from "../comment-form/comment-form";
+import { createComment } from "@/src/services/comments";
+
+import CommentForm, { OnAddComment } from "../comment-form";
 import CommentList from "../comment-list";
 
 import styles from "./comments-section.module.scss";
@@ -10,14 +13,19 @@ interface CommentsSectionProps {
 }
 
 const CommentsSection: FC<CommentsSectionProps> = ({ eventId }) => {
+  const { mutate } = useSWRConfig();
+
+  const [status, setStatus] = useState();
   const [showComments, setShowComments] = useState(false);
 
   const toggleCommentsHandler = useCallback(() => {
     setShowComments((state) => !state);
   }, []);
 
-  const addCommentHandler = useCallback(() => {
-    // send data to API
+  const addCommentHandler: OnAddComment = useCallback(async (comment) => {
+    try {
+      const response = await createComment(comment);
+    } catch (error) {}
   }, []);
 
   return (

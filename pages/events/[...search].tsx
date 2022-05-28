@@ -4,8 +4,8 @@ import { ParsedUrlQuery } from "querystring";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
+import paths from "@/config/paths";
 import EventList from "@/src/components/event-list";
-import paths from "@/src/config/paths";
 import EventSearchTitle from "@/src/modules/events/components/event-search-title";
 import { getFilteredEvents } from "@/src/services/events";
 import { Event } from "@/src/types";

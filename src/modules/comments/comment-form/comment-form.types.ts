@@ -1,8 +1,10 @@
 import { Comment } from "@/src/types";
 
-export interface CommentFormState extends Comment {}
+type NewComment = Omit<Comment, 'id'>;
 
-export type OnAddComment = (comment: Comment) => void;
+export interface CommentFormState extends NewComment {}
+
+export type OnAddComment = (comment: NewComment) => void;
 
 export interface CommentFormProps {
   onAddComment: OnAddComment;

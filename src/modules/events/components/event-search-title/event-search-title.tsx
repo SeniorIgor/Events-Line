@@ -1,6 +1,6 @@
 import { FC, memo, useMemo } from "react";
 
-import paths from "@/src/config/paths";
+import paths from "@/config/paths";
 import Button from "@/src/ui/button";
 
 import { EventSearchTitleProps } from "./event-search-title.types";

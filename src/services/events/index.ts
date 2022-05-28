@@ -1,5 +1,6 @@
 import axios from "axios";
 
+import { apiPath } from "@/config/api";
 import { Event, EventFilter, EventsResponse, Response } from "@/src/types";
 
 const formatError = (err: any): string => {
@@ -18,9 +19,7 @@ export const getEvents = async (): Promise<Response<Array<Event>>> => {
   const events: Array<Event> = [];
 
   try {
-    const { data } = await axios.get<EventsResponse>(
-      'https://senior-nextjs-cource-default-rtdb.firebaseio.com/events.json'
-    );
+    const { data } = await axios.get<EventsResponse>(apiPath.events.all);
 
     Object.entries(data).forEach(([key, value]) =>
       events.push({ ...value, id: key })
@@ -37,7 +36,7 @@ export const getFeaturedEvents = async (): Promise<Response<Array<Event>>> => {
 
   try {
     const { data } = await axios.get<EventsResponse>(
-      'https://senior-nextjs-cource-default-rtdb.firebaseio.com/events.json?isFeatured=true'
+      `${apiPath.events.all}?isFeatured=true`
     );
 
     Object.entries(data).forEach(([key, value]) =>
@@ -56,9 +55,7 @@ export const getEventById = async (
   let event: Event;
 
   try {
-    const { data } = await axios.get<Event>(
-      `https://senior-nextjs-cource-default-rtdb.firebaseio.com/events/${eventId}.json`
-    );
+    const { data } = await axios.get<Event>(apiPath.events.byId(eventId));
 
     event = data;
   } catch (e) {
@@ -75,9 +72,7 @@ export const getFilteredEvents = async ({
   const events: Array<Event> = [];
 
   try {
-    const { data } = await axios.get<EventsResponse>(
-      `https://senior-nextjs-cource-default-rtdb.firebaseio.com/events.json`
-    );
+    const { data } = await axios.get<EventsResponse>(apiPath.events.all);
 
     Object.entries(data).forEach(([key, value]) => {
       const eventDate = new Date(value.date);

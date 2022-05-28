@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { FC, memo } from "react";
 
+import paths from "../../../../config/paths";
 import ArrowRightIcon from "../../../../public/icons/arrow-right.svg";
 import CalendarIcon from "../../../../public/icons/calendar.svg";
 import LocationIcon from "../../../../public/icons/location.svg";
-import paths from "../../../config/paths";
 import Button from "../../../ui/button";
 import { EventItemProps } from "./event-item.types";
 
