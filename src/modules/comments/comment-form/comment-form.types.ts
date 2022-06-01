@@ -1,4 +1,4 @@
-import { Comment } from "@/src/types";
+import { Comment } from '@/src/types';
 
 type NewComment = Omit<Comment, 'id'>;
 

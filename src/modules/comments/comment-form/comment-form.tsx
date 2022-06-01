@@ -1,16 +1,9 @@
-import {
-  ChangeEventHandler,
-  FC,
-  FormEventHandler,
-  memo,
-  useCallback,
-  useState
-} from "react";
+import { ChangeEventHandler, FC, FormEventHandler, memo, useCallback, useState } from 'react';
 
-import { CommentFormProps, CommentFormState } from "./comment-form.types";
-import { checkAllFields } from "./comment-form.utils";
+import { CommentFormProps, CommentFormState } from './comment-form.types';
+import { checkAllFields } from './comment-form.utils';
 
-import styles from "./comment-form.module.scss";
+import styles from './comment-form.module.scss';
 
 const initialFormState: CommentFormState = {
   message: '',
@@ -19,13 +12,10 @@ const initialFormState: CommentFormState = {
 };
 
 const CommentForm: FC<CommentFormProps> = ({ onAddComment }) => {
-  const [formState, setFormState] =
-    useState<CommentFormState>(initialFormState);
+  const [formState, setFormState] = useState<CommentFormState>(initialFormState);
   const [isInvalid, setIsInvalid] = useState(false);
 
-  const handleChange: ChangeEventHandler<
-    HTMLInputElement | HTMLTextAreaElement
-  > = useCallback((event) => {
+  const handleChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback((event) => {
     const { name, value } = event.target;
 
     setFormState((state) => ({ ...state, [name]: value }));
@@ -42,7 +32,7 @@ const CommentForm: FC<CommentFormProps> = ({ onAddComment }) => {
 
       onAddComment(formState);
     },
-    [formState, onAddComment]
+    [formState, onAddComment],
   );
 
   return (
@@ -59,15 +49,10 @@ const CommentForm: FC<CommentFormProps> = ({ onAddComment }) => {
       </div>
       <div className={styles.control}>
         <label htmlFor="message">Your comment</label>
-        <textarea
-          id="message"
-          name="message"
-          rows={5}
-          onChange={handleChange}
-        />
+        <textarea id="message" name="message" rows={5} onChange={handleChange} />
       </div>
       {isInvalid && <p>Please enter a valid email address and comment!</p>}
-      <button>Save comment</button>
+      <button type="submit">Save comment</button>
     </form>
   );
 };

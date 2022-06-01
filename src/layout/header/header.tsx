@@ -1,9 +1,9 @@
-import Link from "next/link";
-import { FC } from "react";
+import { FC } from 'react';
+import Link from 'next/link';
 
-import paths from "@/config/paths";
+import paths from '@/config/paths';
 
-import styles from "./header.module.scss";
+import styles from './header.module.scss';
 
 const Header: FC = () => {
   return (

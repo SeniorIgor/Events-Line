@@ -1,6 +1,6 @@
-import { FC } from "react";
+import { FC } from 'react';
 
-import Header from "../header";
+import Header from '../header';
 
 const Layout: FC = ({ children }) => {
   return (

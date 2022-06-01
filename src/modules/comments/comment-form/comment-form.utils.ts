@@ -1,4 +1,4 @@
-import { CommentFormState } from "./comment-form.types";
+import { CommentFormState } from './comment-form.types';
 
 type Validate = (value: string) => boolean;
 
@@ -17,7 +17,7 @@ const fieldsCheck: Record<keyof CommentFormState, Validate> = {
 };
 
 export const checkAllFields = (state: CommentFormState): boolean => {
-  return Object.entries(state).reduce<boolean>((res, [name, value]) => {
+  return (Object.entries(state) as Entries<CommentFormState>).reduce<boolean>((res, [name, value]) => {
     return res && fieldsCheck[name as keyof CommentFormState](value);
   }, true);
 };

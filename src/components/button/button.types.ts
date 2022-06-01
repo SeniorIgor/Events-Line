@@ -1,5 +1,5 @@
-import Link, { LinkProps } from "next/link";
-import { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
+import { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
+import { LinkProps } from 'next/link';
 
 type BaseProps = {
   className?: string;

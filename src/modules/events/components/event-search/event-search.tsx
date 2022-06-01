@@ -1,17 +1,11 @@
-import {
-  ChangeEventHandler,
-  FC,
-  FormEventHandler,
-  useCallback,
-  useState
-} from "react";
+import { ChangeEventHandler, FC, FormEventHandler, useCallback, useState } from 'react';
 
-import Button from "@/src/ui/button";
+import Button from '@/src/components/button';
 
-import { months, years } from "./event-search.data";
-import { EventSearchProps, EventsSearchParams } from "./event-search.types";
+import { months, years } from './event-search.data';
+import { EventSearchProps, EventsSearchParams } from './event-search.types';
 
-import styles from "./event-search.module.scss";
+import styles from './event-search.module.scss';
 
 const initialState: EventsSearchParams = {
   year: years[0],
@@ -21,14 +15,11 @@ const initialState: EventsSearchParams = {
 const EventsSearch: FC<EventSearchProps> = ({ onSearch }) => {
   const [state, setState] = useState<EventsSearchParams>(initialState);
 
-  const handleChange: ChangeEventHandler<HTMLSelectElement> = useCallback(
-    (event) => {
-      const { name, value } = event.target;
+  const handleChange: ChangeEventHandler<HTMLSelectElement> = useCallback((event) => {
+    const { name, value } = event.target;
 
-      setState((state) => ({ ...state, [name]: value }));
-    },
-    []
-  );
+    setState((current) => ({ ...current, [name]: value }));
+  }, []);
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = useCallback(
     (event) => {
@@ -38,7 +29,7 @@ const EventsSearch: FC<EventSearchProps> = ({ onSearch }) => {
         onSearch(state);
       }
     },
-    [state, onSearch]
+    [state, onSearch],
   );
 
   return (
@@ -46,12 +37,7 @@ const EventsSearch: FC<EventSearchProps> = ({ onSearch }) => {
       <div className={styles.controls}>
         <div className={styles.control}>
           <label htmlFor="year">Year</label>
-          <select
-            id="year"
-            name="year"
-            onChange={handleChange}
-            value={state.year}
-          >
+          <select id="year" name="year" onChange={handleChange} value={state.year}>
             {years.map((year) => (
               <option value={year} key={year}>
                 {year}
@@ -61,12 +47,7 @@ const EventsSearch: FC<EventSearchProps> = ({ onSearch }) => {
         </div>
         <div className={styles.control}>
           <label htmlFor="month">Month</label>
-          <select
-            id="month"
-            name="month"
-            onChange={handleChange}
-            value={state.month}
-          >
+          <select id="month" name="month" onChange={handleChange} value={state.month}>
             {months.map(({ id, title }) => (
               <option value={id} key={id}>
                 {title}

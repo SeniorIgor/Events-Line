@@ -1,4 +1,4 @@
-import { MonthItem } from "./event-search.types";
+import { MonthItem } from './event-search.types';
 
 export const years: Array<string> = ['2022', '2023'];
 export const months: Array<MonthItem> = [

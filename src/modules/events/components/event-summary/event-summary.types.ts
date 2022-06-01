@@ -1,3 +1,3 @@
-import { Event } from "@/src/types";
+import { Event } from '@/src/types';
 
 export type EventSummaryProps = Pick<Event, 'title'>;

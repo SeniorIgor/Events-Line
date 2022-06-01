@@ -1,14 +1,14 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
-import Head from "next/head";
-import { ParsedUrlQuery } from "querystring";
+import Head from 'next/head';
+import { ParsedUrlQuery } from 'querystring';
 
-import CommentsSection from "@/src/modules/comments/comments-section/comments-section";
-import EventContent from "@/src/modules/events/components/event-content";
-import EventLogistics from "@/src/modules/events/components/event-logistics";
-import EventSummary from "@/src/modules/events/components/event-summary";
-import { getEventById, getFeaturedEvents } from "@/src/services/events";
-import { Event } from "@/src/types";
-import ErrorAlert from "@/src/ui/error-alert";
+import ErrorAlert from '@/src/components/error-alert';
+import CommentsSection from '@/src/modules/comments/comments-section/comments-section';
+import EventContent from '@/src/modules/events/components/event-content';
+import EventLogistics from '@/src/modules/events/components/event-logistics';
+import EventSummary from '@/src/modules/events/components/event-summary';
+import { getEventById, getFeaturedEvents } from '@/src/services/events';
+import { Event } from '@/src/types';
 
 interface EventDetailPageProps {
   event?: Event;
@@ -43,12 +43,7 @@ const EventDetailPage: NextPage<EventDetailPageProps> = ({ event, status }) => {
         <meta name="description" content={event.description} />
       </Head>
       <EventSummary title={event.title} />
-      <EventLogistics
-        date={event.date}
-        image={event.image}
-        location={event.location}
-        imageAlt={event.title}
-      />
+      <EventLogistics date={event.date} image={event.image} location={event.location} imageAlt={event.title} />
       <EventContent>
         <p>{event.description}</p>
       </EventContent>
@@ -57,10 +52,7 @@ const EventDetailPage: NextPage<EventDetailPageProps> = ({ event, status }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps<
-  EventDetailPageProps,
-  Params
-> = async (context) => {
+export const getStaticProps: GetStaticProps<EventDetailPageProps, Params> = async (context) => {
   const { eventId } = context.params!;
 
   const { data, error } = await getEventById(eventId);

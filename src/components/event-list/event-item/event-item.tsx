@@ -1,22 +1,17 @@
-import Image from "next/image";
-import { FC, memo } from "react";
+import { FC, memo } from 'react';
+import Image from 'next/image';
 
-import paths from "../../../../config/paths";
-import ArrowRightIcon from "../../../../public/icons/arrow-right.svg";
-import CalendarIcon from "../../../../public/icons/calendar.svg";
-import LocationIcon from "../../../../public/icons/location.svg";
-import Button from "../../../ui/button";
-import { EventItemProps } from "./event-item.types";
+import paths from '../../../../config/paths';
+import ArrowRightIcon from '../../../../public/icons/arrow-right.svg';
+import CalendarIcon from '../../../../public/icons/calendar.svg';
+import LocationIcon from '../../../../public/icons/location.svg';
+import Button from '../../button';
 
-import styles from "./event-item.module.scss";
+import { EventItemProps } from './event-item.types';
 
-const EventItem: FC<EventItemProps> = ({
-  id,
-  title,
-  image,
-  date,
-  location,
-}) => {
+import styles from './event-item.module.scss';
+
+const EventItem: FC<EventItemProps> = ({ id, title, image, date, location }) => {
   const formattedDate = new Date(date).toLocaleDateString('en-US', {
     day: 'numeric',
     month: 'long',

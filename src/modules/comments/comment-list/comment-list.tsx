@@ -1,6 +1,6 @@
-import { FC, memo } from "react";
+import { FC, memo } from 'react';
 
-import styles from "./comment-list.module.scss";
+import styles from './comment-list.module.scss';
 
 const CommentList: FC = () => {
   return (

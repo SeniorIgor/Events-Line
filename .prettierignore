@@ -1,0 +1,6 @@
+.next/**
+build/**
+.husky/**
+coverage/**
+node_modules/**
+package.json

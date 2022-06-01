@@ -1,16 +1,16 @@
-import type { NextPage, GetServerSideProps } from 'next';
-import Head from "next/head";
-import { ParsedUrlQuery } from "querystring";
-import { useEffect, useState } from "react";
-import useSWR from "swr";
+import { useEffect, useState } from 'react';
+import type { GetServerSideProps, NextPage } from 'next';
+import Head from 'next/head';
+import { ParsedUrlQuery } from 'querystring';
+import useSWR from 'swr';
 
-import paths from "@/config/paths";
-import EventList from "@/src/components/event-list";
-import EventSearchTitle from "@/src/modules/events/components/event-search-title";
-import { getFilteredEvents } from "@/src/services/events";
-import { Event } from "@/src/types";
-import Button from "@/src/ui/button";
-import ErrorAlert from "@/src/ui/error-alert";
+import paths from '@/config/paths';
+import Button from '@/src/components/button';
+import ErrorAlert from '@/src/components/error-alert';
+import EventList from '@/src/components/event-list';
+import EventSearchTitle from '@/src/modules/events/components/event-search-title';
+import { getFilteredEvents } from '@/src/services/events';
+import { Event } from '@/src/types';
 
 interface FilteredEventsPageProps {
   search: Array<string>;
@@ -34,7 +34,7 @@ const FilteredEventsPage: NextPage<FilteredEventsPageProps> = ({ search }) => {
 
   const { data, error } = useSWR<Array<Event> | undefined, Error>(
     '/getEvents',
-    async () => (await getFilteredEvents(filters)).data
+    async () => (await getFilteredEvents(filters)).data,
   );
 
   useEffect(() => {
@@ -97,10 +97,7 @@ const FilteredEventsPage: NextPage<FilteredEventsPageProps> = ({ search }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<
-  FilteredEventsPageProps,
-  Params
-> = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps<FilteredEventsPageProps, Params> = async ({ params }) => {
   const { search } = params!;
 
   return { props: { search } };

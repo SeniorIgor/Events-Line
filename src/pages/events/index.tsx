@@ -1,13 +1,12 @@
+import { useCallback } from 'react';
 import type { GetStaticProps, NextPage } from 'next';
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { useCallback } from "react";
+import { useRouter } from 'next/router';
 
-import paths from "@/config/paths";
-import EventList from "@/src/components/event-list";
-import EventsSearch, { SearchEventHandler } from "@/src/modules/events/components/event-search";
-import { getEvents } from "@/src/services/events";
-import { Event } from "@/src/types";
+import paths from '@/config/paths';
+import EventList from '@/src/components/event-list';
+import EventsSearch, { SearchEventHandler } from '@/src/modules/events/components/event-search';
+import { getEvents } from '@/src/services/events';
+import { Event } from '@/src/types';
 
 interface EventsPageProps {
   events: Array<Event>;
@@ -21,7 +20,7 @@ const EventsPage: NextPage<EventsPageProps> = ({ events }) => {
       const path = `${paths.events}/${year}/${month}`;
       router.push(path);
     },
-    [router]
+    [router],
   );
 
   return (

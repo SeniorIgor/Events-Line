@@ -1,9 +1,8 @@
+import axios from 'axios';
 import type { NextApiHandler } from 'next';
 
-import axios from "axios";
-
-import { apiPath } from "@/config/api";
-import { Comment, ErrorResponse } from "@/src/types";
+import { apiPath } from '@/config/api';
+import { Comment, ErrorResponse } from '@/src/types';
 
 type CommentsSuccessGetResponse = Array<Comment>;
 type Response = CommentsSuccessGetResponse | ErrorResponse;
@@ -12,9 +11,7 @@ type PostRequest = Omit<Comment, 'id'>;
 const getHandler: NextApiHandler<Response> = async (req, res) => {
   const eventId = req.query.eventId as string;
 
-  const { data } = await axios.get<Array<Comment>>(
-    apiPath.comments.all(eventId)
-  );
+  const { data } = await axios.get<Array<Comment>>(apiPath.comments.all(eventId));
 
   res.status(201).json(data);
 };
@@ -45,9 +42,7 @@ const handler: NextApiHandler<Response> = async (req, res) => {
         break;
 
       default:
-        res
-          .status(500)
-          .json({ message: `The ${req.method} method is not supported!` });
+        res.status(500).json({ message: `The ${req.method} method is not supported!` });
     }
   } catch (err) {
     res.status(500).json({ message: 'Server not available!' });

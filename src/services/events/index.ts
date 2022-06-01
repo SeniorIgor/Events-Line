@@ -1,14 +1,14 @@
-import axios from "axios";
+import axios from 'axios';
 
-import { apiPath } from "@/config/api";
-import { Event, EventFilter, EventsResponse, Response } from "@/src/types";
+import { apiPath } from '@/config/api';
+import { Event, EventFilter, EventsResponse, Response } from '@/src/types';
 
-const formatError = (err: any): string => {
+const formatError = (err: unknown): string => {
   if (!err) {
     return '';
   }
 
-  if (typeof err === 'object' && 'message' in err) {
+  if (err && typeof err === 'object' && err instanceof Error) {
     return String(err.message);
   }
 
@@ -21,9 +21,7 @@ export const getEvents = async (): Promise<Response<Array<Event>>> => {
   try {
     const { data } = await axios.get<EventsResponse>(apiPath.events.all);
 
-    Object.entries(data).forEach(([key, value]) =>
-      events.push({ ...value, id: key })
-    );
+    Object.entries(data).forEach(([key, value]) => events.push({ ...value, id: key }));
 
     return { data: events };
   } catch (e) {
@@ -35,13 +33,9 @@ export const getFeaturedEvents = async (): Promise<Response<Array<Event>>> => {
   const events: Array<Event> = [];
 
   try {
-    const { data } = await axios.get<EventsResponse>(
-      `${apiPath.events.all}?isFeatured=true`
-    );
+    const { data } = await axios.get<EventsResponse>(`${apiPath.events.all}?isFeatured=true`);
 
-    Object.entries(data).forEach(([key, value]) =>
-      events.push({ ...value, id: key })
-    );
+    Object.entries(data).forEach(([key, value]) => events.push({ ...value, id: key }));
 
     return { data: events };
   } catch (e) {
@@ -49,9 +43,7 @@ export const getFeaturedEvents = async (): Promise<Response<Array<Event>>> => {
   }
 };
 
-export const getEventById = async (
-  eventId: string
-): Promise<Response<Event>> => {
+export const getEventById = async (eventId: string): Promise<Response<Event>> => {
   let event: Event;
 
   try {
@@ -65,10 +57,7 @@ export const getEventById = async (
   return { data: event };
 };
 
-export const getFilteredEvents = async ({
-  year,
-  month,
-}: EventFilter): Promise<Response<Array<Event>>> => {
+export const getFilteredEvents = async ({ year, month }: EventFilter): Promise<Response<Array<Event>>> => {
   const events: Array<Event> = [];
 
   try {
@@ -77,10 +66,7 @@ export const getFilteredEvents = async ({
     Object.entries(data).forEach(([key, value]) => {
       const eventDate = new Date(value.date);
 
-      if (
-        eventDate.getFullYear() === year &&
-        eventDate.getMonth() === month - 1
-      ) {
+      if (eventDate.getFullYear() === year && eventDate.getMonth() === month - 1) {
         events.push({ ...value, id: key });
       }
     });

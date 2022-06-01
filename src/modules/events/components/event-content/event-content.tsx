@@ -1,6 +1,6 @@
-import { FC } from "react";
+import { FC } from 'react';
 
-import styles from "./event-content.module.scss";
+import styles from './event-content.module.scss';
 
 const EventContent: FC = ({ children }) => {
   return <section className={styles.content}>{children}</section>;

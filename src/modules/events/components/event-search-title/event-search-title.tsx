@@ -1,11 +1,11 @@
-import { FC, memo, useMemo } from "react";
+import { FC, memo, useMemo } from 'react';
 
-import paths from "@/config/paths";
-import Button from "@/src/ui/button";
+import paths from '@/config/paths';
+import Button from '@/src/components/button';
 
-import { EventSearchTitleProps } from "./event-search-title.types";
+import { EventSearchTitleProps } from './event-search-title.types';
 
-import styles from "./event-search-title.module.scss";
+import styles from './event-search-title.module.scss';
 
 const EventSearchTitle: FC<EventSearchTitleProps> = ({ date }) => {
   const formattedDate = useMemo(() => {

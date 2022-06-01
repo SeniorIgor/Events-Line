@@ -1,6 +1,6 @@
-import { FC, FormEventHandler, memo } from "react";
+import { FC, FormEventHandler, memo } from 'react';
 
-import styles from "./form-newsletter.module.scss";
+import styles from './form-newsletter.module.scss';
 
 const FormNewsletter: FC = () => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
@@ -13,13 +13,8 @@ const FormNewsletter: FC = () => {
 
       <form onSubmit={handleSubmit}>
         <div className={styles.control}>
-          <input
-            type="email"
-            id="email"
-            placeholder="Your email"
-            aria-label="Your email"
-          />
-          <button>Register</button>
+          <input type="email" id="email" placeholder="Your email" aria-label="Your email" />
+          <button type="submit">Register</button>
         </div>
       </form>
     </section>

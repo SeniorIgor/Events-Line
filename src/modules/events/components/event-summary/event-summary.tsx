@@ -1,8 +1,8 @@
-import { FC, memo } from "react";
+import { FC, memo } from 'react';
 
-import { EventSummaryProps } from "./event-summary.types";
+import { EventSummaryProps } from './event-summary.types';
 
-import styles from "./event-summary.module.scss";
+import styles from './event-summary.module.scss';
 
 const EventSummary: FC<EventSummaryProps> = ({ title }) => {
   return (
