@@ -1,10 +1,11 @@
 import { FC, memo } from 'react';
 import Image from 'next/image';
 
-import paths from '../../../../config/paths';
-import ArrowRightIcon from '../../../../public/icons/arrow-right.svg';
-import CalendarIcon from '../../../../public/icons/calendar.svg';
-import LocationIcon from '../../../../public/icons/location.svg';
+import paths from '@/config/paths';
+import ArrowRightIcon from '@/public/icons/arrow-right.svg';
+import CalendarIcon from '@/public/icons/calendar.svg';
+import LocationIcon from '@/public/icons/location.svg';
+
 import Button from '../../button';
 
 import { EventItemProps } from './event-item.types';
@@ -22,7 +23,7 @@ const EventItem: FC<EventItemProps> = ({ id, title, image, date, location }) => 
   return (
     <li className={styles.item}>
       <div className={styles.image}>
-        <Image src={`/${image}`} alt={title} layout="fill" objectFit="cover" />
+        <Image src={`/${image}`} alt={title} layout="fill" objectFit="cover" priority />
       </div>
       <div className={styles.content}>
         <div className={styles.summary}>

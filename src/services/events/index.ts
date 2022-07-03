@@ -2,18 +2,7 @@ import axios from 'axios';
 
 import { apiPath } from '@/config/api';
 import { Event, EventFilter, EventsResponse, Response } from '@/src/types';
-
-const formatError = (err: unknown): string => {
-  if (!err) {
-    return '';
-  }
-
-  if (err && typeof err === 'object' && err instanceof Error) {
-    return String(err.message);
-  }
-
-  return String(err);
-};
+import { formatError } from '@/src/utils';
 
 export const getEvents = async (): Promise<Response<Array<Event>>> => {
   const events: Array<Event> = [];
@@ -47,9 +36,9 @@ export const getEventById = async (eventId: string): Promise<Response<Event>> =>
   let event: Event;
 
   try {
-    const { data } = await axios.get<Event>(apiPath.events.byId(eventId));
+    const { data } = await axios.get<Omit<Event, 'id'>>(apiPath.events.byId(eventId));
 
-    event = data;
+    event = { ...data, id: eventId };
   } catch (e) {
     return { error: formatError(e) };
   }

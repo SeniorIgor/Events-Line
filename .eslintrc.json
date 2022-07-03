@@ -43,6 +43,8 @@
     "no-void": "off",
     "camelcase": "off",
     "no-use-before-define": "off",
+    "no-underscore-dangle": "off",
+    "no-useless-constructor": "off",
     "import/extensions": "off",
     "import/no-dynamic-require": "off",
     "import/prefer-default-export": "off",

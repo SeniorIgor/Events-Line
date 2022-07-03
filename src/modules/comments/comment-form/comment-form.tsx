@@ -1,38 +1,35 @@
 import { ChangeEventHandler, FC, FormEventHandler, memo, useCallback, useState } from 'react';
 
 import { CommentFormProps, CommentFormState } from './comment-form.types';
-import { checkAllFields } from './comment-form.utils';
+import { checkAllFields, getInitialFormState } from './comment-form.utils';
 
 import styles from './comment-form.module.scss';
 
-const initialFormState: CommentFormState = {
-  message: '',
-  email: '',
-  name: '',
-};
-
-const CommentForm: FC<CommentFormProps> = ({ onAddComment }) => {
-  const [formState, setFormState] = useState<CommentFormState>(initialFormState);
-  const [isInvalid, setIsInvalid] = useState(false);
+const CommentForm: FC<CommentFormProps> = ({ eventId, onAddComment }) => {
+  const [state, setState] = useState<CommentFormState>(getInitialFormState(eventId));
 
   const handleChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback((event) => {
     const { name, value } = event.target;
 
-    setFormState((state) => ({ ...state, [name]: value }));
+    setState((prev) => ({ ...prev, [name]: value, isError: false }));
   }, []);
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = useCallback(
-    (event) => {
+    async (event) => {
       event.preventDefault();
 
-      if (!checkAllFields(formState)) {
-        setIsInvalid(true);
+      if (!checkAllFields(state)) {
+        setState((prev) => ({ ...prev, isError: true }));
         return;
       }
 
-      onAddComment(formState);
+      const clearForm = await onAddComment(state);
+
+      if (clearForm) {
+        setState((prev) => ({ ...prev, email: '', message: '', name: '' }));
+      }
     },
-    [formState, onAddComment],
+    [state, onAddComment],
   );
 
   return (
@@ -40,18 +37,18 @@ const CommentForm: FC<CommentFormProps> = ({ onAddComment }) => {
       <div className={styles.row}>
         <div className={styles.control}>
           <label htmlFor="email">Your email</label>
-          <input type="email" id="email" name="email" onChange={handleChange} />
+          <input type="email" id="email" name="email" value={state.email} onChange={handleChange} />
         </div>
         <div className={styles.control}>
           <label htmlFor="name">Your name</label>
-          <input type="text" id="name" name="name" onChange={handleChange} />
+          <input type="text" id="name" name="name" value={state.name} onChange={handleChange} />
         </div>
       </div>
       <div className={styles.control}>
         <label htmlFor="message">Your comment</label>
-        <textarea id="message" name="message" rows={5} onChange={handleChange} />
+        <textarea id="message" name="message" rows={5} value={state.message} onChange={handleChange} />
       </div>
-      {isInvalid && <p>Please enter a valid email address and comment!</p>}
+      {state.isError && <p>Please enter a valid email address and comment!</p>}
       <button type="submit">Save comment</button>
     </form>
   );

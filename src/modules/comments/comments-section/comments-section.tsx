@@ -1,7 +1,9 @@
-import { FC, memo, useCallback, useState } from 'react';
+import { FC, memo, useCallback, useEffect, useState } from 'react';
 
-// import { useSWRConfig } from 'swr';
-// import { createComment } from '@/src/services/comments';
+import { createComment } from '@/src/services/comments/create';
+import getAllComments from '@/src/services/comments/getAll';
+import { Comment } from '@/src/types';
+
 import CommentForm, { OnAddComment } from '../comment-form';
 import CommentList from '../comment-list';
 
@@ -11,33 +13,68 @@ interface CommentsSectionProps {
   eventId: string;
 }
 
-const CommentsSection: FC<CommentsSectionProps> = () => {
+interface CommentsSectionState {
+  comments: Array<Comment>;
+  showComments: boolean;
+  isLoading?: boolean;
+  error?: string | null;
+}
+
+const initialState: CommentsSectionState = {
+  comments: [],
+  showComments: false,
+  isLoading: false,
+  error: null,
+};
+
+const generalError = 'Something went wrong, please try again later';
+
+const CommentsSection: FC<CommentsSectionProps> = ({ eventId }) => {
   // const { mutate } = useSWRConfig();
 
-  // const [status, setStatus] = useState();
-  const [showComments, setShowComments] = useState(false);
+  const [state, setState] = useState<CommentsSectionState>(initialState);
 
-  const toggleCommentsHandler = useCallback(() => {
-    setShowComments((state) => !state);
-  }, []);
+  const toggleCommentsHandler = useCallback(
+    () => setState((prev) => ({ ...prev, showComments: !prev.showComments })),
+    [],
+  );
 
-  const addCommentHandler: OnAddComment = useCallback(() => {
-    // try {
-    //   const response = await createComment(comment);
-    // } catch (error) {
-    //   console.log(error);
-    // }
-  }, []);
+  const addCommentHandler: OnAddComment = useCallback(
+    async (comment) => {
+      const { data, error } = await createComment({ comment, eventId });
+
+      if (data) {
+        setState((prev) => ({ ...prev, comments: [...prev.comments, data] }));
+        return true;
+      }
+
+      setState((prev) => ({ ...prev, error: error || generalError }));
+      return false;
+    },
+    [eventId],
+  );
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      const { data } = await getAllComments({ eventId, sort: { _id: -1 } });
+
+      if (data?.length) {
+        setState((prev) => ({ ...prev, comments: data }));
+      }
+    };
+
+    fetchComments();
+  }, [eventId]);
 
   return (
     <section className={styles.comments}>
       <button type="button" onClick={toggleCommentsHandler}>
-        {showComments ? 'Hide' : 'Show'} Comments
+        {state.showComments ? 'Hide' : 'Show'} Comments
       </button>
-      {showComments && (
+      {state.showComments && (
         <>
-          <CommentForm onAddComment={addCommentHandler} />
-          <CommentList />
+          <CommentForm eventId={eventId} onAddComment={addCommentHandler} />
+          {Boolean(state.comments.length) && <CommentList eventId={eventId} comments={state.comments} />}
         </>
       )}
     </section>

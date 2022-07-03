@@ -7,7 +7,6 @@ export const apiPath = {
   },
   comments: {
     all: (eventId: string) => `${basePath}/events/${eventId}/comments.json`,
-    byId: (eventId: string, commentId: string) =>
-      `${basePath}/events/${eventId}/comments/${commentId}.json`,
+    byId: (eventId: string, commentId: string) => `${basePath}/events/${eventId}/comments/${commentId}.json`,
   },
 };

@@ -31,3 +31,10 @@ ul {
   margin: auto;
   text-align: center;
 }
+
+input,
+textarea {
+  &:focus {
+    outline: none;
+  }
+}

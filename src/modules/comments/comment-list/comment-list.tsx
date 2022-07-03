@@ -1,22 +1,20 @@
 import { FC, memo } from 'react';
 
+import { CommentListProps } from './comment-list.types';
+
 import styles from './comment-list.module.scss';
 
-const CommentList: FC = () => {
+const CommentList: FC<CommentListProps> = ({ comments }) => {
   return (
     <ul className={styles.comments}>
-      <li>
-        <p>My comment is amazing!</p>
-        <div>
-          By <address>Maximilian</address>
-        </div>
-      </li>
-      <li>
-        <p>My comment is amazing!</p>
-        <div>
-          By <address>Maximilian</address>
-        </div>
-      </li>
+      {comments.map(({ id, name, message }) => (
+        <li key={id}>
+          <p>{message}</p>
+          <div>
+            By <address>{name}</address>
+          </div>
+        </li>
+      ))}
     </ul>
   );
 };

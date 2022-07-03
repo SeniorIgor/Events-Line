@@ -3,4 +3,5 @@ export interface Comment {
   name: string;
   email: string;
   message: string;
+  eventId: string;
 }
