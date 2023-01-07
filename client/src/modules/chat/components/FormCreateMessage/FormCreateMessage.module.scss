@@ -1,0 +1,48 @@
+.root {
+  width: 100%;
+  border-radius: 6px;
+  background-color: #03be9f;
+  padding: 1rem;
+  box-shadow: 0 1px 6px rgba(#000, 0.2);
+}
+
+.row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.control {
+  margin-bottom: 0.5rem;
+  flex: 1;
+  min-width: 10rem;
+}
+
+.control label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: white;
+  text-align: left;
+}
+
+.control input,
+.control textarea {
+  font: inherit;
+  padding: 0.25rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 100%;
+  background-color: #dcfff9;
+  box-shadow: inset 0 1px 6px rgba(#000, 0.2);
+}
+
+.control textarea {
+  resize: none;
+}
+
+.button {
+  color: #03be9f;
+  font-weight: 600;
+  background-color: white;
+}

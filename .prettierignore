@@ -1,6 +1,7 @@
 .next/**
-build/**
+**/build
+**/dist
 .husky/**
-coverage/**
-node_modules/**
-package.json
+**/coverage
+**/node_modules
+**/package.json
