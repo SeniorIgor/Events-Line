@@ -15,7 +15,7 @@ export const createComment = async ({ eventId, comment }: CreateCommentRequest):
       return { error: data.message };
     }
 
-    return { data: data.comment as Comment };
+    return { data: data.comment as Comment, status };
   } catch (e) {
     return { error: formatError(e) };
   }

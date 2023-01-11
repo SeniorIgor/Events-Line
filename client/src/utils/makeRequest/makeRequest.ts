@@ -1,7 +1,9 @@
 import { AxiosRequestConfig } from 'axios';
 import qs from 'qs';
 
-import { APIError, axiosErrorHandler, axiosInstance, Response } from '../axios/axios';
+import { APIError, Response } from '@/src/types';
+
+import { axiosErrorHandler, axiosInstance } from '../axios/axios';
 
 const baseAPI = process.env.BASE_URL;
 const apiKey = process.env.API_KEY;
@@ -22,9 +24,9 @@ export const makeRequest = async <T = unknown, D = unknown>(params: AxiosRequest
   }
 
   try {
-    const { status, data } = await axiosInstance.request<T>(localParams);
+    const { status, data, headers } = await axiosInstance.request<T>(localParams);
 
-    return { status, data };
+    return { status, data, headers };
   } catch (err) {
     return axiosErrorHandler<T>(err as APIError);
   }

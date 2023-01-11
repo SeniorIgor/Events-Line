@@ -1,11 +1,13 @@
 import { ChangeEventHandler, FC, FormEventHandler, memo, useCallback, useEffect, useState } from 'react';
 
 import Loader from '@/src/components/loader/Loader';
+import { useMutate } from '@/src/hooks';
 import { subscribeNewsletter } from '@/src/services/newsletter';
 
-import { FormNewsletterState } from './form-newsletter.types';
+import { notification } from './FormNewsletter.data';
+import { FormNewsletterState } from './FormNewsletter.types';
 
-import styles from './form-newsletter.module.scss';
+import styles from './FormNewsletter.module.scss';
 
 const initialState: FormNewsletterState = {
   email: '',
@@ -13,10 +15,13 @@ const initialState: FormNewsletterState = {
   message: null,
 };
 
-const successMessage = 'You have been successfully subscribed to the newsletter';
-
 const FormNewsletter: FC = () => {
   const [state, setState] = useState<FormNewsletterState>(initialState);
+
+  const { onMutate } = useMutate({
+    notification,
+    requestHandler: subscribeNewsletter,
+  });
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = useCallback((event) => {
     const { name, value } = event.target;
@@ -32,18 +37,9 @@ const FormNewsletter: FC = () => {
         return;
       }
 
-      setState((prev) => ({ ...prev, isLoading: true }));
-
-      const { error } = await subscribeNewsletter(state.email);
-
-      if (error) {
-        setState((prev) => ({ ...prev, error, isLoading: false }));
-        return;
-      }
-
-      setState((prev) => ({ ...prev, isLoading: false, email: '', message: successMessage }));
+      onMutate(state.email);
     },
-    [state.email],
+    [state.email, onMutate],
   );
 
   useEffect(() => {
@@ -59,8 +55,8 @@ const FormNewsletter: FC = () => {
   return (
     <section className={styles.newsletter}>
       <h2>Sign up to stay updated!</h2>
-      {state.error && <p className={styles.error}>{state.error}</p>}
-      {state.message && <p className={styles.success}>{state.message}</p>}
+      {/* {state.error && <p className={styles.error}>{state.error}</p>} */}
+      {/* {state.message && <p className={styles.success}>{state.message}</p>} */}
 
       <form onSubmit={handleSubmit}>
         <div className={styles.control}>

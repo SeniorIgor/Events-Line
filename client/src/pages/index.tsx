@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import type { GetStaticProps, NextPage } from 'next';
 
 import EventList from '@/src/components/event-list';
-import FormNewsletter from '@/src/modules/comments/form-newsletter/form-newsletter';
+import FormNewsletter from '@/src/modules/comments/FormNewsletter/FormNewsletter';
 import { getFeaturedEvents } from '@/src/services/events';
 import { Event } from '@/src/types/event';
 

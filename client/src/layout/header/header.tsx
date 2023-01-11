@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { routes } from '@/src/constants';
 
-import styles from './header.module.scss';
+import styles from './Header.module.scss';
 
 const Header: FC = () => {
   return (

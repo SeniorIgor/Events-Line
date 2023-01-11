@@ -1,38 +1,35 @@
 import { FC, memo, useCallback, useEffect, useState } from 'react';
 
+import { useMutate } from '@/src/hooks';
 import { createComment } from '@/src/services/comments/create';
 import getAllComments from '@/src/services/comments/getAll';
-import { Comment } from '@/src/types';
 
-import CommentForm, { OnAddComment } from '../comment-form';
 import CommentList from '../comment-list';
+import FormComment, { OnAddComment } from '../FormComment';
 
-import styles from './comments-section.module.scss';
+import { notification } from './CommentSection.data';
+import { CommentSectionProps, CommentSectionState } from './CommentSection.types';
 
-interface CommentsSectionProps {
-  eventId: string;
-}
+import styles from './CommentSection.module.scss';
 
-interface CommentsSectionState {
-  comments: Array<Comment>;
-  showComments: boolean;
-  isLoading?: boolean;
-  error?: string | null;
-}
-
-const initialState: CommentsSectionState = {
+const initialState: CommentSectionState = {
   comments: [],
   showComments: false,
-  isLoading: false,
-  error: null,
+  isClearForm: false,
 };
 
-const generalError = 'Something went wrong, please try again later';
+const CommentSection: FC<CommentSectionProps> = ({ eventId }) => {
+  const [state, setState] = useState<CommentSectionState>(initialState);
 
-const CommentsSection: FC<CommentsSectionProps> = ({ eventId }) => {
-  // const { mutate } = useSWRConfig();
-
-  const [state, setState] = useState<CommentsSectionState>(initialState);
+  const { onMutate } = useMutate({
+    notification,
+    requestHandler: createComment,
+    onSuccess: (data) => {
+      if (data) {
+        setState((prev) => ({ ...prev, comments: [...prev.comments, data], isClearForm: true }));
+      }
+    },
+  });
 
   const toggleCommentsHandler = useCallback(
     () => setState((prev) => ({ ...prev, showComments: !prev.showComments })),
@@ -40,18 +37,12 @@ const CommentsSection: FC<CommentsSectionProps> = ({ eventId }) => {
   );
 
   const addCommentHandler: OnAddComment = useCallback(
-    async (comment) => {
-      const { data, error } = await createComment({ comment, eventId });
+    (comment) => {
+      setState((prev) => ({ ...prev, isClearForm: false }));
 
-      if (data) {
-        setState((prev) => ({ ...prev, comments: [...prev.comments, data] }));
-        return true;
-      }
-
-      setState((prev) => ({ ...prev, error: error || generalError }));
-      return false;
+      onMutate({ comment, eventId });
     },
-    [eventId],
+    [eventId, onMutate],
   );
 
   useEffect(() => {
@@ -73,7 +64,7 @@ const CommentsSection: FC<CommentsSectionProps> = ({ eventId }) => {
       </button>
       {state.showComments && (
         <>
-          <CommentForm eventId={eventId} onAddComment={addCommentHandler} />
+          <FormComment eventId={eventId} isClearForm={state.isClearForm} onAddComment={addCommentHandler} />
           {Boolean(state.comments.length) && <CommentList eventId={eventId} comments={state.comments} />}
         </>
       )}
@@ -81,4 +72,4 @@ const CommentsSection: FC<CommentsSectionProps> = ({ eventId }) => {
   );
 };
 
-export default memo(CommentsSection);
+export default memo(CommentSection);

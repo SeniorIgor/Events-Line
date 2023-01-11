@@ -1,12 +1,12 @@
-import { ChangeEventHandler, FC, FormEventHandler, memo, useCallback, useState } from 'react';
+import { ChangeEventHandler, FC, FormEventHandler, memo, useCallback, useEffect, useState } from 'react';
 
-import { CommentFormProps, CommentFormState } from './comment-form.types';
-import { checkAllFields, getInitialFormState } from './comment-form.utils';
+import { FormCommentProps, FormCommentState } from './FormComment.types';
+import { checkAllFields, getInitialFormState } from './FormComment.utils';
 
-import styles from './comment-form.module.scss';
+import styles from './FormComment.module.scss';
 
-const CommentForm: FC<CommentFormProps> = ({ eventId, onAddComment }) => {
-  const [state, setState] = useState<CommentFormState>(getInitialFormState(eventId));
+const FormComment: FC<FormCommentProps> = ({ eventId, isClearForm, onAddComment }) => {
+  const [state, setState] = useState<FormCommentState>(getInitialFormState(eventId));
 
   const handleChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback((event) => {
     const { name, value } = event.target;
@@ -23,14 +23,16 @@ const CommentForm: FC<CommentFormProps> = ({ eventId, onAddComment }) => {
         return;
       }
 
-      const clearForm = await onAddComment(state);
-
-      if (clearForm) {
-        setState((prev) => ({ ...prev, email: '', message: '', name: '' }));
-      }
+      onAddComment(state);
     },
     [state, onAddComment],
   );
+
+  useEffect(() => {
+    if (isClearForm) {
+      setState((prev) => ({ ...prev, email: '', message: '', name: '' }));
+    }
+  }, [isClearForm]);
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
@@ -54,4 +56,4 @@ const CommentForm: FC<CommentFormProps> = ({ eventId, onAddComment }) => {
   );
 };
 
-export default memo(CommentForm);
+export default memo(FormComment);

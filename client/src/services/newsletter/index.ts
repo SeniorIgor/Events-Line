@@ -19,7 +19,7 @@ export const subscribeNewsletter = async (email: string): Promise<Response<Subsc
       return { error: data.message };
     }
 
-    return { data };
+    return { data, status };
   } catch (e) {
     return { error: formatError(e) };
   }

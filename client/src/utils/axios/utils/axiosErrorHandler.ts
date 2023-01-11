@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { APIError, Response } from '../axios.types';
+import { APIError, Response } from '@/src/types';
 
 const axiosErrorHandler = <T>(error: APIError): Response<T> => {
   if (axios.isCancel(error)) {

@@ -1,8 +1,8 @@
-import { CommentFormState } from './comment-form.types';
+import { FormCommentState } from './FormComment.types';
 
 type Validate = (value: string) => boolean;
 
-type CheckedField = Omit<CommentFormState, 'eventId' | 'isError' | 'isLoading'>;
+type CheckedField = Omit<FormCommentState, 'eventId' | 'isError' | 'isLoading'>;
 
 export const textFieldIsValid: Validate = (text) => {
   return Boolean(text && text.trim());
@@ -18,7 +18,7 @@ const fieldsCheck: Record<keyof CheckedField, Validate> = {
   message: textFieldIsValid,
 };
 
-export const checkAllFields = (state: CommentFormState): boolean => {
+export const checkAllFields = (state: FormCommentState): boolean => {
   return (Object.entries(state) as Entries<CheckedField>).reduce<boolean>((res, [name, value]) => {
     const fieldName = name as keyof CheckedField;
 
@@ -26,7 +26,7 @@ export const checkAllFields = (state: CommentFormState): boolean => {
   }, true);
 };
 
-export const getInitialFormState = (eventId: string): CommentFormState => ({
+export const getInitialFormState = (eventId: string): FormCommentState => ({
   eventId,
   message: '',
   email: '',

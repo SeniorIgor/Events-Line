@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { ParsedUrlQuery } from 'querystring';
 
 import ErrorAlert from '@/src/components/error-alert';
-import CommentsSection from '@/src/modules/comments/comments-section/comments-section';
+import CommentsSection from '@/src/modules/comments/CommentSection/CommentSection';
 import EventContent from '@/src/modules/events/components/event-content';
 import EventLogistics from '@/src/modules/events/components/event-logistics';
 import EventSummary from '@/src/modules/events/components/event-summary';

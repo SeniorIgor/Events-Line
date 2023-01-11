@@ -14,7 +14,7 @@ export const getAllComments = async ({ eventId, sort }: GetAllCommentsRequest): 
       return { error: data.message };
     }
 
-    return { data: data.comments };
+    return { data: data.comments, status };
   } catch (e) {
     return { error: formatError(e) };
   }
